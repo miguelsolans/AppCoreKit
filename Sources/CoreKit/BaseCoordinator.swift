@@ -5,7 +5,7 @@
 //
 
 /// Use this protocol to define methods a root delegate coordinator must comply to
-protocol CoordinatorDelegate: AnyObject { }
+public protocol CoordinatorDelegate: AnyObject { }
 
 /// Base class for a Coordinator
 ///
@@ -18,7 +18,7 @@ protocol CoordinatorDelegate: AnyObject { }
 ///     - Instantiate and inject dependencies into ViewController's and ViewModel's
 ///     - Present or push ViewController's to the screen
 ///
-public class BaseCoordinator {
+open class BaseCoordinator {
 
     /// An array that holds reference to child coordinators
     ///
@@ -30,13 +30,17 @@ public class BaseCoordinator {
     private(set) var childCoordinators: [BaseCoordinator] = []
 
     /// Override this method to define navigation and initial setup
-    public func start() {
+    open func start() {
         preconditionFailure("This method needs to be overridden by concrete subclass.")
     }
 
     /// Override this method to clean-up a coordinator
-    public func finish() {
+    open func finish() {
         preconditionFailure("This method needs to be overridden by concrete subclass.")
+    }
+    
+    public init() {
+        
     }
 
     /// Add a child coordinator to stack of coordinators

@@ -30,7 +30,7 @@ public enum ApiError: Error {
 
 
 /// Base class for a ApiClient request
-public class BaseApiClient {
+open class BaseApiClient {
     private let urlSession: URLSession;
     
     private var baseURL: String;

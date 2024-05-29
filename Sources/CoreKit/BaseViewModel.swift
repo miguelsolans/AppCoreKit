@@ -14,7 +14,7 @@ public protocol ViewModelCoordinatorDelegate: AnyObject { }
 public protocol ViewModelDelegate: AnyObject { }
 
 /// Base class for a ViewModel
-public class BaseViewModel<CoordinatorDelegateType: ViewModelCoordinatorDelegate, ViewDelegateType: ViewModelDelegate> {
+open class BaseViewModel<CoordinatorDelegateType: ViewModelCoordinatorDelegate, ViewDelegateType: ViewModelDelegate> {
     
     /// Set delegate with coordinator class
     public weak var coordinatorDelegate: CoordinatorDelegateType?

@@ -30,24 +30,24 @@ public class BaseCoordinator {
     private(set) var childCoordinators: [BaseCoordinator] = []
 
     /// Override this method to define navigation and initial setup
-    func start() {
+    public func start() {
         preconditionFailure("This method needs to be overridden by concrete subclass.")
     }
 
     /// Override this method to clean-up a coordinator
-    func finish() {
+    public func finish() {
         preconditionFailure("This method needs to be overridden by concrete subclass.")
     }
 
     /// Add a child coordinator to stack of coordinators
     /// - Parameter coordinator: child coordinator
-    func addChildCoordinator(_ coordinator: BaseCoordinator) {
+    public func addChildCoordinator(_ coordinator: BaseCoordinator) {
         childCoordinators.append(coordinator)
     }
     
     /// Remove a child coordinator from the stack of coordinators
     /// - Parameter coordinator: child coordinator to be removed
-    func removeChildCoordinator(_ coordinator: BaseCoordinator) {
+    public func removeChildCoordinator(_ coordinator: BaseCoordinator) {
         if let index = childCoordinators.firstIndex(of: coordinator) {
             childCoordinators.remove(at: index)
         } else {
@@ -57,12 +57,12 @@ public class BaseCoordinator {
     
     /// Remove all coordinators of a given type from the stack of coordinators
     /// - Parameter type: coordinator type
-    func removeAllChildCoordinatorsWith<T>(type: T.Type) {
+    public func removeAllChildCoordinatorsWith<T>(type: T.Type) {
         childCoordinators = childCoordinators.filter { $0 is T  == false }
     }
 
     /// Remove all coordinators from the stack of coordinators
-    func removeAllChildCoordinators() {
+    public func removeAllChildCoordinators() {
         childCoordinators.removeAll()
     }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ApiClientConfiguration {
+public class ApiClientConfiguration {
     private var headers: [String: String] = [
         "Content-Type": "application/json",
         "Accept": "application/json"

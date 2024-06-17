@@ -21,7 +21,7 @@ public extension UIViewController {
 ///
 /// If the UIViewController has not been instantiated by a UIStoryboard, one can use `localizationTableName` method
 /// to manually set-up a localizable catalogue.
-public class BaseViewController: UIViewController {
+open class BaseViewController: UIViewController {
     
     /// The localization table name.
     ///

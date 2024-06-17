@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIViewController {
+public extension UIViewController {
     /// The name of the storyboard that instantiated the view controller.
     var storyboardName: String? {
         return self.storyboard?.value(forKey: "name") as? String
@@ -21,7 +21,7 @@ extension UIViewController {
 ///
 /// If the UIViewController has not been instantiated by a UIStoryboard, one can use `localizationTableName` method
 /// to manually set-up a localizable catalogue.
-class BaseViewController: UIViewController {
+public class BaseViewController: UIViewController {
     
     /// The localization table name.
     ///

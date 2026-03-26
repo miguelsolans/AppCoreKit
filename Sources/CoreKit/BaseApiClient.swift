@@ -31,84 +31,45 @@ public enum ApiError: Error {
 
 /// Base class for a ApiClient request
 open class BaseApiClient {
-    private let urlSession: URLSession;
-    
-    private var baseURL: String;
-    
+    private let urlSession: URLSession
+    private var baseURL: String
     private let configuration: ApiClientConfiguration
-    
-    
+
     public init(baseURL: String, configuration: ApiClientConfiguration, session: URLSession = .shared) {
         self.baseURL = baseURL
         self.configuration = configuration
         self.urlSession = session
     }
-    
-    
+
     public func request<T: Decodable>(endpoint: String,
                                       method: HttpMethod,
-                                      parameters: [String: Any]? = nil,
-                                      completion: @escaping (Result<T, ApiError>) -> Void) {
-        
-        // Construct the full URL
+                                      parameters: [String: Any]? = nil) async throws -> T {
         guard let url = URL(string: "\(baseURL)\(endpoint)") else {
-            completion(.failure(.invalidURL))
-            return
+            throw ApiError.invalidURL
         }
-        
-        // Create the URL request
+
         var request = URLRequest(url: url)
         request.httpMethod = method.method
         request.allHTTPHeaderFields = configuration.getHeaders()
-        
-        // Add parameters to the request body for non-GET requests
+
         if let parameters = parameters, method != .get {
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-            } catch {
-                completion(.failure(.decodingError(error)))
-                return
-            }
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
         }
-        
-        // Execute the request
-        urlSession.dataTask(with: request) { data, response, error in
-            // Ensure completion runs on the main thread
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(.decodingError(error)))
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    completion(.failure(.invalidResponse))
-                    return
-                }
-                
-                guard (200..<300).contains(httpResponse.statusCode) else {
-                    completion(.failure(.invalidStatusCode(httpResponse.statusCode)))
-                    return
-                }
-                
-                guard let data = data else {
-                    completion(.failure(.noData))
-                    return
-                }
-                
-                do {
-                    let decodedObject = try JSONDecoder().decode(T.self, from: data)
-                    completion(.success(decodedObject))
-                } catch {
-                    completion(.failure(.decodingError(error)))
-                }
-            }
-        }.resume()
+
+        let (data, response) = try await urlSession.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw ApiError.invalidResponse
+        }
+
+        guard (200..<300).contains(httpResponse.statusCode) else {
+            throw ApiError.invalidStatusCode(httpResponse.statusCode)
+        }
+
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            throw ApiError.decodingError(error)
+        }
     }
-    
-    /// Set base API URL
-    /// - Parameter baseURL: String API base URL
-    public func setBaseURL(_ baseURL: String) {
-        self.baseURL = baseURL
-    }
-    
 }

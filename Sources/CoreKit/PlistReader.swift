@@ -9,7 +9,7 @@ import Foundation
 
 public struct PlistReader {
     
-    static func value<T>(forKey key: String) -> T? {
+    public static func value<T>(forKey key: String) -> T? {
         return Bundle.main.object(forInfoDictionaryKey: key) as? T
     }
 }

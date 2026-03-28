@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlistReader {
+public struct PlistReader {
     
     static func value<T>(forKey key: String) -> T? {
         return Bundle.main.object(forInfoDictionaryKey: key) as? T

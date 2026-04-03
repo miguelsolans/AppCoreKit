@@ -47,7 +47,7 @@ open class BaseCoordinator {
     ///
     /// The reference should be weak to avoid retain cycles between the coordinator
     /// and its view controller.
-    var rootViewController: UIViewController?
+    public var rootViewController: UIViewController?
     
     /// The parent coordinator in the hierarchy.
     ///

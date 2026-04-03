@@ -28,6 +28,16 @@ open class BaseCoordinator {
     ///  - `removeAllChildCoordinatorsWith()` and
     ///  - `removeAllChildCoordinators`
     private(set) var childCoordinators: [BaseCoordinator] = []
+    
+    /// The parent coordinator in the hierarchy.
+    ///
+    /// This reference is set when a coordinator is added as a child of another coordinator.
+    /// It is used to:
+    /// - Notify the parent when this coordinator finishes
+    /// - Allow the parent to remove this coordinator from its `childCoordinators`
+    ///
+    /// The reference is weak to avoid retain cycles.
+    weak var parentCoordinator: BaseCoordinator?
 
     /// Override this method to define navigation and initial setup
     open func start() {
@@ -46,6 +56,7 @@ open class BaseCoordinator {
     /// Add a child coordinator to stack of coordinators
     /// - Parameter coordinator: child coordinator
     public func addChildCoordinator(_ coordinator: BaseCoordinator) {
+        coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
     }
     

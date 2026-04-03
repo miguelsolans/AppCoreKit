@@ -4,6 +4,8 @@
 //  Created by Miguel Solans on 21/05/2024.
 //
 
+import UIKit
+
 /// Use this protocol to define methods a root delegate coordinator must comply to
 public protocol CoordinatorDelegate: AnyObject { }
 
@@ -28,6 +30,24 @@ open class BaseCoordinator {
     ///  - `removeAllChildCoordinatorsWith()` and
     ///  - `removeAllChildCoordinators`
     private(set) var childCoordinators: [BaseCoordinator] = []
+    
+    /// The root view controller managed by this coordinator.
+    ///
+    /// This represents the primary view controller that defines the coordinator’s lifecycle
+    /// within a navigation stack.
+    ///
+    /// It is typically:
+    /// - Set in `start()` when the first screen of the flow is created
+    /// - Pushed or presented by the coordinator
+    ///
+    /// This property is used to:
+    /// - Detect when the coordinator’s flow has been removed from the navigation stack
+    ///   (e.g., via back navigation or swipe-to-pop)
+    /// - Determine when the coordinator should call `finish()`
+    ///
+    /// The reference should be weak to avoid retain cycles between the coordinator
+    /// and its view controller.
+    var rootViewController: UIViewController?
     
     /// The parent coordinator in the hierarchy.
     ///

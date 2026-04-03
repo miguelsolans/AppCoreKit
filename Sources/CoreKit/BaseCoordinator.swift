@@ -20,7 +20,7 @@ public protocol CoordinatorDelegate: AnyObject { }
 ///     - Instantiate and inject dependencies into ViewController's and ViewModel's
 ///     - Present or push ViewController's to the screen
 ///
-open class BaseCoordinator {
+open class BaseCoordinator: NSObject {
 
     /// An array that holds reference to child coordinators
     ///
@@ -69,7 +69,7 @@ open class BaseCoordinator {
         preconditionFailure("This method needs to be overridden by concrete subclass.")
     }
     
-    public init() {
+    public override init() {
         
     }
 
@@ -101,12 +101,4 @@ open class BaseCoordinator {
         childCoordinators.removeAll()
     }
 
-}
-
-extension BaseCoordinator: Equatable {
-    
-    public static func == (lhs: BaseCoordinator, rhs: BaseCoordinator) -> Bool {
-        return lhs === rhs
-    }
-    
 }

@@ -31,4 +31,10 @@ open class BaseViewModel<CoordinatorDelegateType: ViewModelCoordinatorDelegate, 
         self.viewDelegate = viewDelegate
     }
     
+    /// Closure that can be used to trigger UI updates.
+    ///
+    /// Used in lightweight MVVM setups where a full binding system is not required.
+    ///
+    /// - Note:Ensure that UI updates are performed on the main thread when invoking this closure.
+    public var updateUI: (() -> Void)?
 }

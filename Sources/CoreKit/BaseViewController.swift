@@ -108,6 +108,6 @@ open class BaseViewController: UIViewController {
 
     // MARK: - View Lifecycle Helpers
 
-    open func setupView() {}
+    open func setupUI() {}
     open func setupBindings() {}
 }

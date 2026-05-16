@@ -102,3 +102,23 @@ open class BaseCoordinator: NSObject {
     }
 
 }
+
+public enum CoordinatorNavigationMode {
+    case root
+    case push(animated: Bool = true, hidesBottomBarWhenPushed: Bool = false)
+}
+
+extension UINavigationController {
+    public func showInitialViewController(
+        _ viewController: UIViewController,
+        using mode: CoordinatorNavigationMode
+    ) {
+        switch mode {
+        case .root:
+            viewControllers = [viewController]
+        case let .push(animated, hidesBottomBarWhenPushed):
+            viewController.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed
+            pushViewController(viewController, animated: animated)
+        }
+    }
+}

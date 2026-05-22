@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ViewModelError {
+public enum ViewModelFeedback {
     case showAlert(message: String)
     case silent
 }

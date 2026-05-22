@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum ViewModelError {
+    case showAlert(message: String)
+    case silent
+}
+
 /// Use this protocol to define methods a coordinator delegate must comply to
 public protocol ViewModelCoordinatorDelegate: AnyObject { }
 

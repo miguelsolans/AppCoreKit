@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum ViewModelFeedback {
+    case showAlert(message: String)
+    case silent
+}
+
 /// Use this protocol to define methods a coordinator delegate must comply to
 public protocol ViewModelCoordinatorDelegate: AnyObject { }
 
@@ -33,8 +38,16 @@ open class BaseViewModel<CoordinatorDelegateType: ViewModelCoordinatorDelegate, 
     
     /// Closure that can be used to trigger UI updates.
     ///
-    /// Used in lightweight MVVM setups where a full binding system is not required.
-    ///
     /// - Note:Ensure that UI updates are performed on the main thread when invoking this closure.
     public var updateUI: (() -> Void)?
+    
+    /// Closure that can be used to inform UI of success events
+    ///
+    /// - Note: Ensure that UI updates are performed on the main thread when invoking this closure.
+    public var onSuccess: ((ViewModelFeedback) -> Void)?
+    
+    /// Closure that can be used to inform UI of error events
+    ///
+    /// - Note: Ensure that UI updates are performed on the main thread when invoking this closure.
+    public var onError: ((ViewModelFeedback) -> Void)?
 }

@@ -130,3 +130,23 @@ extension UIViewController {
         return self
     }
 }
+
+extension UIViewController {
+    public var isModal: Bool {
+        if presentingViewController != nil {
+            return true
+        }
+
+        if let navigationController = navigationController,
+           navigationController.presentingViewController?.presentedViewController == navigationController {
+            return true
+        }
+
+        if let tabBarController = tabBarController,
+           tabBarController.presentingViewController is UITabBarController {
+            return true
+        }
+
+        return false
+    }
+}
